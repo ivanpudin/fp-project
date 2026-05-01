@@ -2,6 +2,13 @@ package com.rockthejvm
 
 import scala.math.Numeric.Implicits._
 
+/* 
+Use the --interactive flag to test either of the objects
+Eg: scala --interactive .\AnalyticsUtils.scala
+then select which one to run in the interactive menu
+*/
+
+
 object AnalyticsUtils {
 
     def mean[A](data: Seq[A])(implicit num: Numeric[A]) : Double = {
@@ -80,5 +87,46 @@ object AnalyticsUtils {
         println(s"3. Mode:     ${mode(seq4)} (Expected: List(10.5, 20.0, 30.5, 40))")
         println(s"4. Range:    ${range(seq4)} (Expected: 29.5)")
         println(s"5. Midrange: ${midrange(seq4)} (Expected: 25.25)")
+    }
+}
+
+object AnalyticsHelper {
+    def getStats[A](data: Seq[Map[String, A]])(implicit num: Numeric[A]) : Map[String, Map[String, Any]] = {
+        if (data.isEmpty) {
+            return Map.empty
+        }
+
+        // get keys
+        val keys = data.flatMap(x => x.keys).toSet
+
+        // get sequences for each key
+        val sequences = keys.map(key => key -> data.flatMap(line => line.get(key)))
+
+        //get all stats for each sequence
+        sequences.map(pair => pair._1 -> Map(
+            "mean" -> AnalyticsUtils.mean(pair._2),
+            "median" -> AnalyticsUtils.median(pair._2),
+            "mode" -> AnalyticsUtils.mode(pair._2),
+            "range" -> AnalyticsUtils.range(pair._2),
+            "midrange" -> AnalyticsUtils.midrange(pair._2)
+        )).toMap
+    }
+
+    def main(args: Array[String]): Unit = {
+        val seq1 = Seq(
+            Map(
+                "price" -> 5,
+                "random" -> 10
+            ),
+            Map(
+                "price" -> 3,
+                "random" -> 15
+            )
+        )
+
+        AnalyticsHelper.getStats(seq1).foreach(println)
+
+        // example to get 1 stat for 1 field
+        println(AnalyticsHelper.getStats(seq1).get("price").get("mean"))
     }
 }
