@@ -145,3 +145,6 @@ project/plugins/project/
 
 # Environment variables / local secrets
 .env
+
+# Files
+energy.csv
