@@ -148,3 +148,14 @@ project/plugins/project/
 
 # Files
 energy.csv
+
+# Junk from installed dependencies
+null/
+
+# IntelliJ module files
+**/*.iml
+.idea/
+
+# Recursive sbt build artifacts
+project/project/
+project/target/
