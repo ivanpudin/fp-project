@@ -36,10 +36,11 @@ object Main {
       case "1" =>
         // Call API handler here,
         // assuming that it saves data to .csv on its own
+        FingridClient.getData()
 
         // After API saved new data to a file, fetch it here
         val newData = loadData()
-        println(s"Loaded ${newData.length} rows from Fingrid API.")
+        println(s"Loaded ${newData.length} rows from the file.")
         mainMenu(newData)
 
       case "2" =>
