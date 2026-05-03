@@ -1,11 +1,24 @@
 export interface DataRow {
-  energyType: String,
-  startDate: String,
-  endDate: String,
-  energyProduction: number
+  energyType: string;
+  startDate: string;
+  endDate: string;
+  energyProduction: number;
 }
 
 export interface DataStatus {
-  severity: String,
-  message: String
+  severity: string;
+  message: string;
+}
+
+export interface AnalyticsStats {
+  mean: string;
+  median: string;
+  mode: string;
+  range: string;
+  midrange: string;
+  sum: string;
+}
+
+export interface AnalyticsResponse {
+  [energyType: string]: AnalyticsStats;
 }
