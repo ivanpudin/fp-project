@@ -47,6 +47,10 @@ object Main {
         mainMenu(newData)
 
       case "2" =>
+        val status = DataStatusUtils.getStatus(currentData)
+        println("- - - - - - - - - - - - -")
+        println(s"Status: ${status.severity}\nMessage: ${status.message}")
+        println("- - - - - - - - - - - - -")
         currentData.foreach(println)
         println(s"Showing ${currentData.length} rows.")
         mainMenu(currentData)
