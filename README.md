@@ -21,3 +21,7 @@ After all node modules are installed, run the frontend:
 `npm run dev`
 
 Build the server folder using some IDE, e.g. IntelliJ IDEA, and run the Server.scala file
+
+You might replace Fingrid API token with your own, using environmental variables.
+
+**The current token exposure is for educational purposes only.**
