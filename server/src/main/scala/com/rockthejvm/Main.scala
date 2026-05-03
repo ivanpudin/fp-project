@@ -56,7 +56,10 @@ object Main {
         mainMenu(filteredData)
 
       case "4" =>
-        AnalyticsHelper.runAnalytics(currentData).foreach(println)
+        AnalyticsHelper.runAnalytics(currentData).foreach{ row =>
+          println(row._1) // print type
+          row._2.foreach(stat => println(s"\t${stat._1}:\t${stat._2}"))
+        }
         mainMenu(currentData)
 
       case "5" =>
