@@ -1,11 +1,12 @@
 package com.rockthejvm
 
 import scala.io.Source
+import java.time.ZonedDateTime
 
 case class DataRow(
     energyType: String,
-    startDate: String,
-    endDate: String,
+    startDate: ZonedDateTime,
+    endDate: ZonedDateTime,
     energyProduction: Double
 )
 
@@ -21,21 +22,18 @@ object DataCollectorUtils {
             if (values.length != 4) {
                 Left(s"Invalid row format (expected columns:4): $line")
             } else {
-            
-                val production = Try(values(3).toDouble)
+                val energyType = values(0)
+                val parsedStartDate = Try(ZonedDateTime.parse(values(1)))
+                val parsedEndDate = Try(ZonedDateTime.parse(values(2)))
+                val parsedProduction = Try(values(3).toDouble)
 
-                production match {
-                    case Right(energyProduction) =>
-                        Right(DataRow(
-                            values(0),
-                            values(1),
-                            values(2),
-                            energyProduction
-                        ))
-                    case Left(_) => Left(s"Production could not have been parsed to double in line: $line")
+                (parsedStartDate, parsedEndDate, parsedProduction) match {
+                    case (Right(start), Right(end), Right(prod)) => Right(DataRow(energyType, start, end, prod))
+                    case (Left(error), _, _) => Left(s"Start date could not be parsed in line: $line")
+                    case (_, Left(error), _) => Left(s"End date could not be parsed in line: $line")
+                    case (_, _, Left(error)) => Left(s"Production could not be parsed in line: $line")
                 }
             }
-            
         }
 
 

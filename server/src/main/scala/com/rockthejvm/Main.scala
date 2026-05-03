@@ -49,9 +49,6 @@ object Main {
 
       case "2" =>
         val status = DataStatusUtils.getStatus(currentData)
-        println("- - - - - - - - - - - - -")
-        println(s"Status: ${status.severity}\nMessage: ${status.message}")
-        println("- - - - - - - - - - - - -")
         println("#####################################################################################")
         println("Type\t\tStart\t\t\tEnd\t\t\tMW")
         currentData.filter(datarow => datarow.energyType != "Consumption").foreach(datarow => println(s"${datarow.energyType}\t\t${datarow.startDate}\t${datarow.endDate}\t${datarow.energyProduction}"))
@@ -60,6 +57,9 @@ object Main {
         currentData.filter(datarow => datarow.energyType == "Consumption").foreach(datarow => println(s"${datarow.energyType}\t${datarow.startDate}\t${datarow.endDate}\t${datarow.energyProduction}"))
         println("#####################################################################################")
         println(s"Showing ${currentData.length} rows.")
+        println("- - - - - - - - - - - - -")
+        println(s"Status: ${status.severity}\nMessage: ${status.message}")
+        println("- - - - - - - - - - - - -")
         mainMenu(currentData)
 
       case "3" =>

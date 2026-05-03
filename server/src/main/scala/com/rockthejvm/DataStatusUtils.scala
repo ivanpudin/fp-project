@@ -9,15 +9,17 @@ case class DataStatus(
 object DataStatusUtils {
     def getStatus(data: List[DataRow]): DataStatus = {
         val malfunctions = getMalfunctions(data)
+        val malfucntionedTypes = malfunctions.map(_.energyType).distinct.mkString(", ")
         
         val totalProduced  = getTotalProduction(data)
         val totalConsumed  = getTotalConsumption(data)
         val isLowProduction = totalProduced < totalConsumed
 
         if (malfunctions.nonEmpty && isLowProduction)
-            DataStatus("Red", "Malfunctions and low production detected")
+            
+            DataStatus("Red", s"Low production detected and Malfunctions in: ${malfucntionedTypes}")
         else if (malfunctions.nonEmpty)
-            DataStatus("Red", "Malfunctions detected")
+            DataStatus("Red", " Malfunctions in: ${malfucntionedTypes}")
         else if (isLowProduction)
             DataStatus("Yellow", "Low production")
         else
@@ -25,7 +27,11 @@ object DataStatusUtils {
     }
 
     def getMalfunctions(data: List[DataRow]) : List[DataRow] = {
-        data.filter(datarow => datarow.energyProduction == 0.0)
+        data.filter{ row =>
+            val startHour = row.startDate.getHour
+            val isNighttime = startHour >= 17| startHour <= 6 
+            row.energyProduction == 0.0 && !(row.energyType == "Solar" && isNighttime)
+        }
     }
 
     def getTotalProduction(data: List[DataRow]) : Double = {
