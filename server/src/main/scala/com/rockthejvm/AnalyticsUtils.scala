@@ -118,6 +118,11 @@ object AnalyticsHelper {
 
     def main(args: Array[String]): Unit = {
         val data = DataCollectorUtils.fromFile("energy.csv")
-        AnalyticsHelper.runAnalytics(data).foreach(println)
+
+        data match {
+            case Left(e) => println(s"Error $e")
+            case Right(d) => AnalyticsHelper.runAnalytics(d).foreach(println)
+        }
+        
     }
 }

@@ -7,16 +7,13 @@ object Main {
   private val FILENAME = "energy.csv"
 
   private def loadData(): List[DataRow] = {
-    DataCollectorUtils.fromFile(FILENAME)
-
-    // For version of Collector Utils with error handling:
-//    DataCollectorUtils.fromFile(FILENAME) match {
-//      case Right(data) =>
-//        data
-//      case Left(error) =>
-//        println(s"Failed to read file: $error")
-//        Nil
-//    }
+    DataCollectorUtils.fromFile(FILENAME) match {
+      case Right(data) =>
+        data
+      case Left(error) =>
+        println(s"Failed to read file: $error")
+        Nil
+    }
   }
 
   private def saveData(data: List[DataRow]): Unit = {
