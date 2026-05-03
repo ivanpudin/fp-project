@@ -9,6 +9,13 @@ object Main {
   private def loadData(): List[DataRow] = {
     DataCollectorUtils.fromFile(FILENAME) match {
       case Right(data) =>
+        val malfunctions = data.filter(datarow => datarow.energyProduction == 0.0)
+        if(malfunctions.nonEmpty) {
+          println("- - - - - - - - - - - - - -")
+          println("Warning the following malfunctions occured (no energy produced)")
+          malfunctions.foreach(datarow => println(s"Type: ${datarow.energyType}\tStart: ${datarow.startDate}\tEnd: ${datarow.endDate}"))
+          println("- - - - - - - - - - - - - -")
+        }
         data
       case Left(error) =>
         println(s"Failed to read file: $error")
