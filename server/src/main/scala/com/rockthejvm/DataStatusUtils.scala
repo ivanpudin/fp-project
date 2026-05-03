@@ -26,8 +26,8 @@ object DataStatusUtils {
 
     def getMalfunctions(data: List[DataRow]) : List[DataRow] = {
         data.filter{ row =>
-            val hour = row.startDate.getHour
-            val isNighttime = hour >= 18 || hour <= 5
+            val startHour = row.startDate.getHour
+            val isNighttime = startHour >= 17| startHour <= 6 
             row.energyProduction == 0.0 && !(row.energyType == "Solar" && isNighttime)
         }
     }
