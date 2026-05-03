@@ -2,6 +2,7 @@ package com.rockthejvm
 
 import cask._
 import upickle.default._
+import java.time.ZonedDateTime
 
 object Server extends cask.MainRoutes {
 
@@ -9,6 +10,11 @@ object Server extends cask.MainRoutes {
   override def host: String = "localhost"
 
   // upickle conversion
+  implicit val zonedDateTimeRW: ReadWriter[ZonedDateTime] = readwriter[String].bimap[ZonedDateTime](
+    zdt => zdt.toString,
+    str => ZonedDateTime.parse(str)
+  )
+
   implicit val dataRowRW: ReadWriter[DataRow] = macroRW
   implicit val dataStatusRW: ReadWriter[DataStatus] = macroRW
 
