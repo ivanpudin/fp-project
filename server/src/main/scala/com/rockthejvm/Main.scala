@@ -9,6 +9,10 @@ object Main {
   private def loadData(): List[DataRow] = {
     DataCollectorUtils.fromFile(FILENAME) match {
       case Right(data) =>
+        val status = DataStatusUtils.getStatus(data)
+        println("- - - - - - - - - - - - -")
+        println(s"Status: ${status.severity}\nMessage: ${status.message}")
+        println("- - - - - - - - - - - - -")
         data
       case Left(error) =>
         println(s"Failed to read file: $error")
@@ -44,7 +48,17 @@ object Main {
         mainMenu(newData)
 
       case "2" =>
-        currentData.foreach(println)
+        val status = DataStatusUtils.getStatus(currentData)
+        println("- - - - - - - - - - - - -")
+        println(s"Status: ${status.severity}\nMessage: ${status.message}")
+        println("- - - - - - - - - - - - -")
+        println("#####################################################################################")
+        println("Type\t\tStart\t\t\tEnd\t\t\tMW")
+        currentData.filter(datarow => datarow.energyType != "Consumption").foreach(datarow => println(s"${datarow.energyType}\t\t${datarow.startDate}\t${datarow.endDate}\t${datarow.energyProduction}"))
+        println("-------------------------------------------------------------------------------------")
+        println("Type\t\tStart\t\t\tEnd\t\t\tMW")
+        currentData.filter(datarow => datarow.energyType == "Consumption").foreach(datarow => println(s"${datarow.energyType}\t${datarow.startDate}\t${datarow.endDate}\t${datarow.energyProduction}"))
+        println("#####################################################################################")
         println(s"Showing ${currentData.length} rows.")
         mainMenu(currentData)
 
@@ -53,7 +67,10 @@ object Main {
         mainMenu(filteredData)
 
       case "4" =>
-        AnalyticsHelper.runAnalytics(currentData).foreach(println)
+        AnalyticsHelper.runAnalytics(currentData).foreach{ row =>
+          println(row._1) // print type
+          row._2.foreach(stat => println(s"\t${stat._1}:\t${stat._2}"))
+        }
         mainMenu(currentData)
 
       case "5" =>
