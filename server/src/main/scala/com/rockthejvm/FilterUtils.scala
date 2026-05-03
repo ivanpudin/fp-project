@@ -31,6 +31,9 @@ object FilterUtils {
     }
   }
 
+  // It asks date as an anchor point.
+  // If select monthly, it will give result for the whole month from anchored date.
+  // If select weekly, it will give result for the entire week to which anchored date belongs to.
   private val inputDateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy")
   def filterByDate(data: List[DataRow], dateStr: String, basis: TimeBasis): Either[String, List[DataRow]] = {
     try {
