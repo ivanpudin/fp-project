@@ -9,15 +9,17 @@ case class DataStatus(
 object DataStatusUtils {
     def getStatus(data: List[DataRow]): DataStatus = {
         val malfunctions = getMalfunctions(data)
+        val malfucntionedTypes = malfunctions.map(_.energyType).distinct.mkString(", ")
         
         val totalProduced  = getTotalProduction(data)
         val totalConsumed  = getTotalConsumption(data)
         val isLowProduction = totalProduced < totalConsumed
 
         if (malfunctions.nonEmpty && isLowProduction)
-            DataStatus("Red", "Malfunctions and low production detected")
+            
+            DataStatus("Red", s"Low production detected and Malfunctions in: ${malfucntionedTypes}")
         else if (malfunctions.nonEmpty)
-            DataStatus("Red", "Malfunctions detected")
+            DataStatus("Red", " Malfunctions in: ${malfucntionedTypes}")
         else if (isLowProduction)
             DataStatus("Yellow", "Low production")
         else
