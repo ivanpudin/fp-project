@@ -1,33 +1,22 @@
+# Overview
+
+A Renewable Energy Plant System (REPS) that allows users to monitor, filter, and analyze various energy production types and consumption trends across Finland. The app is built using React, Scala, and Fingrid API.
+
+<img width="1898" height="945" alt="image" src="https://github.com/user-attachments/assets/8e775eb9-ad2b-414e-ab35-9983cc02f1ff" />
+
+
 # Getting Started
 
-to download repo: `git clone https://github.com/ivanpudin/dsm-project.git`
+Download repo: `git clone https://github.com/ivanpudin/fp-project.git`
 
-# Making changes
+After download, install modules:
 
-the main project is located in the main branch.
+`cd client`
 
-you can pull the latest version of the project using: `git pull origin main` (ensure you are on the main branch)
+`npm i`
 
-we use branching and pull requests for introducing changes in order not to mess up the code
+After all node modules are installed, run the frontend:
 
-before making any changes ensure you are on the main branch with the latest code, and then switch to new branch
+`npm run dev`
 
-branch creates a local duplicate of the main branch which you can work on
-
-this lists all branches and show which you are currently at: `git branch`
-
-create new branch: `git branch branch_name`
-
-switch branches by: `git checkout branch_name`
-
-once you are done:
-
-`git add .`
-
-`git commit -m "message"`
-
-`git push origin branch_name`
-
-after that you can chekout back to the main branch and delete your branch locally: `git branch -d branch_name`
-
-once you push the changes, create pull request to merge your branch into main
+Build the server folder using some IDE, e.g. IntelliJ IDEA, and run the Server.scala file
