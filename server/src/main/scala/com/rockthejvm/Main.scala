@@ -9,6 +9,10 @@ object Main {
   private def loadData(): List[DataRow] = {
     DataCollectorUtils.fromFile(FILENAME) match {
       case Right(data) =>
+        val status = DataStatusUtils.getStatus(data)
+        println("- - - - - - - - - - - - -")
+        println(s"Status: ${status.severity}\nMessage: ${status.message}")
+        println("- - - - - - - - - - - - -")
         data
       case Left(error) =>
         println(s"Failed to read file: $error")
