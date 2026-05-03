@@ -25,7 +25,11 @@ object DataStatusUtils {
     }
 
     def getMalfunctions(data: List[DataRow]) : List[DataRow] = {
-        data.filter(datarow => datarow.energyProduction == 0.0)
+        data.filter { row =>
+            val hour = row.startDate.getHour
+            val isNighttime = hour >= 18 || hour < 5
+            row.energyProduction == 0.0 && !(row.energyType == "Solar" && isNighttime)
+        }
     }
 
     def getTotalProduction(data: List[DataRow]) : Double = {

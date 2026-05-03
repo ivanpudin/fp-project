@@ -40,8 +40,7 @@ object FilterUtils {
       val targetDate = LocalDate.parse(dateStr, inputDateFormat)
 
       val filteredData = data.filter { row =>
-        val rowDateTime = ZonedDateTime.parse(row.startDate)
-        val rowDate = rowDateTime.toLocalDate
+        val rowDate = row.startDate.toLocalDate
 
         basis match {
           case Hourly =>
