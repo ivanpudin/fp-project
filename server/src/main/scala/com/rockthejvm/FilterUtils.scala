@@ -80,44 +80,50 @@ object FilterUtils {
   }
 
   def main(args: Array[String]): Unit = {
-    val data = DataCollectorUtils.fromFile("energy.csv")
-
-    println("TEST DAILY FILTER")
-    filterByDate(data, "01/01/2024", Daily) match {
-      case Right(filtered) => filtered.take(3).foreach(println)
-      case Left(err) => println(s"$err")
+    DataCollectorUtils.fromFile("energy.csv") match {
+      case Left(e) => printf(s"Error: $e")
+      case Right(data) => test(data)
     }
 
-    println("\n TEST INVALID FORMAT")
-    filterByDate(data, "April 12, 2024", Daily) match {
-      case Right(filtered) => filtered.foreach(println)
-      case Left(err) => println(s"$err")
-    }
 
-    println("\n TEST NO DATA AVAILABLE")
-    filterByDate(data, "15/04/2024", Daily) match {
-      case Right(filtered) => filtered.foreach(println)
-      case Left(err) => println(s"$err")
-    }
+    def test(data: List[DataRow]) : Unit = {
+      println("TEST DAILY FILTER")
+      filterByDate(data, "01/01/2024", Daily) match {
+        case Right(filtered) => filtered.take(3).foreach(println)
+        case Left(err) => println(s"$err")
+      }
 
-    println("\n TEST ENERGY TYPE FILTERING")
-    filterByEnergyType(data, "Wind") match {
-      case Right(filtered) => filtered.take(3).foreach(println)
-      case Left(err) => println(s"$err")
-    }
+      println("\n TEST INVALID FORMAT")
+      filterByDate(data, "April 12, 2024", Daily) match {
+        case Right(filtered) => filtered.foreach(println)
+        case Left(err) => println(s"$err")
+      }
 
-    filterByEnergyType(data, "Nuclear") match {
-      case Right(filtered) => filtered.take(3).foreach(println)
-      case Left(err) => println(s"$err")
-    }
+      println("\n TEST NO DATA AVAILABLE")
+      filterByDate(data, "15/04/2024", Daily) match {
+        case Right(filtered) => filtered.foreach(println)
+        case Left(err) => println(s"$err")
+      }
 
-    println("\n TEST SORT DESC")
-    val sortingTest = filterByEnergyType(data, "Wind")
-      .flatMap(windData => sortByEnergyProduction(windData, DESC))
+      println("\n TEST ENERGY TYPE FILTERING")
+      filterByEnergyType(data, "Wind") match {
+        case Right(filtered) => filtered.take(3).foreach(println)
+        case Left(err) => println(s"$err")
+      }
 
-    sortingTest match {
-      case Right(sorted) => sorted.take(10).foreach(println)
-      case Left(err) => println(s"$err")
+      filterByEnergyType(data, "Nuclear") match {
+        case Right(filtered) => filtered.take(3).foreach(println)
+        case Left(err) => println(s"$err")
+      }
+
+      println("\n TEST SORT DESC")
+      val sortingTest = filterByEnergyType(data, "Wind")
+        .flatMap(windData => sortByEnergyProduction(windData, DESC))
+
+      sortingTest match {
+        case Right(sorted) => sorted.take(10).foreach(println)
+        case Left(err) => println(s"$err")
+      }
     }
   }
 }
