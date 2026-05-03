@@ -49,7 +49,6 @@ object DataStatusUtils {
     }
 
     def main(args: Array[String]): Unit = {
-        val threshold = 2000
         DataCollectorUtils.fromFile("energy.csv") match {
             case Right(data) =>
                 println(getStatus(data))
