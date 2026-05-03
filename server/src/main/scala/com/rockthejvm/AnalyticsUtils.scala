@@ -54,6 +54,11 @@ object AnalyticsUtils {
         else (num.toDouble(data.max) + num.toDouble(data.min)) / 2.0
     }
 
+    def sum[A](data: Seq[A])(implicit num: Numeric[A]) : Double = {
+        if (data.isEmpty) 0.0
+        else data.map(x => num.toDouble(x)).sum
+    }
+
     // Tests
     def main(args: Array[String]): Unit = {
         val seq1 = Seq(10, 20, 20, 30, 50)
@@ -63,6 +68,7 @@ object AnalyticsUtils {
         println(s"3. Mode:     ${mode(seq1)} (Expected: List(20))")
         println(s"4. Range:    ${range(seq1)} (Expected: 40.0)")
         println(s"5. Midrange: ${midrange(seq1)} (Expected: 30.0)")
+        println(s"6. Sum:      ${sum(seq1)} (Expected: 130.0)")
 
         val seq2 = Seq(10, 20, 30, 40)
         println(s"Data Set: $seq2")
@@ -71,6 +77,7 @@ object AnalyticsUtils {
         println(s"3. Mode:     ${mode(seq2)} (Expected: List(10, 20, 30, 40))")
         println(s"4. Range:    ${range(seq2)} (Expected: 30.0)")
         println(s"5. Midrange: ${midrange(seq2)} (Expected: 25.0)")
+        println(s"6. Sum:      ${sum(seq2)} (Expected: 100.0)")
 
         val seq3 = Seq(1.5, 2.5, 2.5, 3.5, 5.5)
         println(s"Data Set: $seq3")
@@ -79,6 +86,7 @@ object AnalyticsUtils {
         println(s"3. Mode:     ${mode(seq3)} (Expected: List(2.5))")
         println(s"4. Range:    ${range(seq3)} (Expected: 4.0)")
         println(s"5. Midrange: ${midrange(seq3)} (Expected: 3.5)")
+        println(s"6. Sum:      ${sum(seq3)} (Expected: 15.5)")
 
         val seq4 = Seq(10.5, 20.0, 30.5, 40.0)
         println(s"Data Set: $seq4")
@@ -87,6 +95,7 @@ object AnalyticsUtils {
         println(s"3. Mode:     ${mode(seq4)} (Expected: List(10.5, 20.0, 30.5, 40))")
         println(s"4. Range:    ${range(seq4)} (Expected: 29.5)")
         println(s"5. Midrange: ${midrange(seq4)} (Expected: 25.25)")
+        println(s"6. Sum:      ${sum(seq4)} (Expected: 101.0)")
     }
 }
 
@@ -97,7 +106,8 @@ object AnalyticsHelper {
             "median" -> AnalyticsUtils.median(data),
             "mode" -> AnalyticsUtils.mode(data),
             "range" -> AnalyticsUtils.range(data),
-            "midrange" -> AnalyticsUtils.midrange(data)
+            "midrange" -> AnalyticsUtils.midrange(data),
+            "sum" -> AnalyticsUtils.sum(data)
         )
     }
 
